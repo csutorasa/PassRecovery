@@ -1,0 +1,51 @@
+﻿<Window x:Class="PassRecovery.UI.MainWindow.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PassRecovery"
+        mc:Ignorable="d"
+        Title="PassRecovery" Height="600" Width="1000" MinWidth="600" MinHeight="300">
+    <DockPanel>
+        <Menu DockPanel.Dock="Top" Height="20">
+            <MenuItem Header="_File">
+                <MenuItem Header="E_xport All" Click="ExportAll_Click"/>
+                <MenuItem Header="_Exit" Click="Exit_Click"/>
+            </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Header="_About" Click="About_Click"/>
+            </MenuItem>
+        </Menu>
+        <Grid Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250" MinWidth="150"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*" MinWidth="150"/>
+            </Grid.ColumnDefinitions>
+            <DockPanel Grid.Column="0" Margin="5">
+                <Label DockPanel.Dock="Top">Profiles</Label>
+                <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="0 5">
+                    <Button Padding="5" Click="AddProfile_Click">Add profile</Button>
+                </StackPanel>
+                <ListBox SelectionChanged="ListBox_SelectionChanged" SelectionMode="Multiple" ItemsSource="{Binding Model.Profiles}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="{Binding DisplayName}"/>
+                                <Label Content="{Binding Source}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </DockPanel>
+            <GridSplitter Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" ShowsPreview="True" Width="2"/>
+            <DockPanel Grid.Column="2" Margin="5">
+                <Label DockPanel.Dock="Top">Header</Label>
+                <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="0 5">
+                    <Button Padding="5" Click="Export_Click">Export</Button>
+                </StackPanel>
+                <DataGrid ItemsSource="{Binding Model.LoginData}" IsReadOnly="True"/>
+            </DockPanel>
+        </Grid>
+    </DockPanel>
+</Window>

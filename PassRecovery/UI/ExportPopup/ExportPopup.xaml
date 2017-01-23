@@ -1,0 +1,28 @@
+﻿<components:Popup x:Class="PassRecovery.UI.ExportPopup.ExportPopup"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                  xmlns:local="clr-namespace:PassRecovery.UI"
+                  xmlns:components="clr-namespace:PassRecovery.UI.Components"
+                  xmlns:converters="clr-namespace:PassRecovery.UI.Converters"
+                  mc:Ignorable="d"
+                  Title="Export" Height="270" Width="600" ResizeMode="CanMinimize">
+    <components:Popup.Resources>
+        <converters:NullToBoolConverter x:Key="NullToBoolConverter"/>
+    </components:Popup.Resources>
+    <StackPanel Margin="10">
+        <Label>Export format</Label>
+        <ComboBox Margin="10 0 10 10" ItemsSource="{Binding Model.Formatters}" SelectedItem="{Binding Model.SelectedFormatter}" Height="30">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <Label Content="{Binding Format}" />
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <Label>Export file</Label>
+        <TextBox IsReadOnly="True" Margin="10 0 10 10" MouseDoubleClick="TextBox_MouseDoubleClick" Text="{Binding Model.SelectedPath}" Height="30" FontSize="16"/>
+        <CheckBox IsChecked="{Binding Model.OpenAfter}" Margin="10">Open after export</CheckBox>
+        <Button Click="Export_Click" IsEnabled="{Binding Model.SelectedPath, Converter={StaticResource NullToBoolConverter}}" FontSize="16">Export</Button>
+    </StackPanel>
+</components:Popup>
