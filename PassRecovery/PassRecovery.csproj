@@ -93,6 +93,7 @@
     </ApplicationDefinition>
     <Compile Include="BLL\Formatters\JsonLoginDataFormatter.cs" />
     <Compile Include="BLL\Formatters\XlsxLoginDataFormatter.cs" />
+    <Compile Include="BLL\InvalidDataProviderException.cs" />
     <Compile Include="BLL\Profile.cs" />
     <Compile Include="BLL\ProfileNotFoundException.cs" />
     <Compile Include="BLL\Providers\ChromeDataProvider.cs" />

@@ -15,13 +15,12 @@ namespace PassRecovery.UI.MainWindow
     {
         private readonly MainModel model = new MainModel();
         private readonly ClassFinder classFinder = new ClassFinder();
-        private readonly IEnumerable<IDataProvider> providers;
+        private readonly List<IDataProvider> providers = new List<IDataProvider>();
 
         public MainModel Model { get { return model; } }
         public MainViewModel()
         {
-            providers = classFinder.GetSubClasses(typeof(IDataProvider))
-                .Select(loginDataProviderType => (IDataProvider)classFinder.CreateInstance(loginDataProviderType));
+            providers.AddRange(createDataProviders(classFinder.GetSubClasses(typeof(IDataProvider))));
             RefreshProfiles();
         }
 
@@ -89,6 +88,20 @@ namespace PassRecovery.UI.MainWindow
                 }
             }
             return errors;
+        }
+
+        private IEnumerable<IDataProvider> createDataProviders(IEnumerable<Type> loginDataProviderTypes)
+        {
+            var providers = new List<IDataProvider>();
+            foreach (var loginDataProviderType in loginDataProviderTypes)
+            {
+                try
+                {
+                    providers.Add((IDataProvider)classFinder.CreateInstance(loginDataProviderType));
+                }
+                catch(InvalidDataProviderException) { }
+            }
+            return providers;
         }
     }
 }

@@ -20,11 +20,21 @@ namespace PassRecovery.BLL.NSS
         {
             if (nssModule == IntPtr.Zero)
             {
-                LoadLibrary(nssDlls.FullName + "\\msvcp120.dll");
-                LoadLibrary(nssDlls.FullName + "\\msvcr120.dll");
-                LoadLibrary(nssDlls.FullName + "\\mozglue.dll");
-                nssModule = LoadLibrary(nssDlls.FullName + "\\nss3.dll");
+                LoadLibraryWithCheck(nssDlls.FullName + "\\msvcp120.dll");
+                LoadLibraryWithCheck(nssDlls.FullName + "\\msvcr120.dll");
+                LoadLibraryWithCheck(nssDlls.FullName + "\\mozglue.dll");
+                nssModule = LoadLibraryWithCheck(nssDlls.FullName + "\\nss3.dll");
             }
+        }
+
+        private static IntPtr LoadLibraryWithCheck(string path)
+        {
+            IntPtr result = LoadLibrary(path);
+            if (result == IntPtr.Zero)
+            {
+                throw new FileNotFoundException(path);
+            }
+            return result;
         }
 
         public NSSAPI(DirectoryInfo nssDlls)

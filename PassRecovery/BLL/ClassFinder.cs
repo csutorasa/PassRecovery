@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -44,7 +45,14 @@ namespace PassRecovery
         public object CreateInstance(Type type, Type[] parameterTypes, object[] parameters)
         {
             var constructor = type.GetConstructor(parameterTypes);
-            return constructor.Invoke(parameters);
+            try
+            {
+                return constructor.Invoke(parameters);
+            }
+            catch(TargetInvocationException ex)
+            {
+                throw ex.InnerException;
+            }
         }
     }
 }

@@ -25,7 +25,14 @@ namespace PassRecovery.BLL.Providers
 
         public FirefoxDataProvider()
         {
-            nssapi = new NSSAPI(GetFirefoxDirectory());
+            try
+            {
+                nssapi = new NSSAPI(GetFirefoxDirectory());
+            }
+            catch
+            {
+                throw new InvalidDataProviderException(Source);
+            }
         }
 
         public string GetProfilesDirectory()
